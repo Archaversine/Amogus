@@ -125,3 +125,47 @@ list bob #button- trash admin #button
 Now the `trash+` in the first section actually refers to the `trash` event in 
 the second section, and the `#button-` in the second section actually refers 
 to the `#button` in the first section.
+
+### Inconsistency Detection 
+
+If someone is not a good liar, they may make mistakes in how they tell their alibi.
+For example, they may lay out a series of events that is not even logically 
+possible to occur. The most basic example of this is stating that you were in the same 
+room as another person when they claim you were not. In code, this would be 
+expressed as the following: 
+
+```
+list bob admin wires electrical medbay #button
+list alice wires admin medbay #button
+
+set bob.wires = alice.wires
+set bob.medbay /= alice.medbay
+
+set bob.medbay = alice.medbay
+```
+
+Notice how there are two statements that contradict each other: one of them 
+states that bob and alice completed the medbay task at the same time, and the 
+other claims that they didn't. The interpreter can identify this inconsistency 
+and prints all the related information to it:
+
+```
+[*] --== INCONSISTENCY ==--
+
+bob.admin0
+bob.wires0
+bob.electrical0
+bob.medbay0
+#button0
+alice.wires0
+alice.admin0
+alice.medbay0
+
+[*] --== INCONSISTENCY ==--
+amogus: On Command: set bob.medbay0 [Equals] alice.medbay0
+```
+
+This prints out all events that are related to the consistency, and the 
+statement that caused the inconsisteny. This is obviously a very simple example, 
+but for larger scenarios it becomes increasingly more difficult to keep track 
+of this, leading to the creation of this DSL.

@@ -6,4 +6,3 @@ set bob.wires = alice.wires
 set bob.medbay /= alice.medbay
 
 set bob.medbay = alice.medbay
-
