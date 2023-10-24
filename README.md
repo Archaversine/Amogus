@@ -2,7 +2,7 @@
 
 An ergonomic DSL (Domain Specific Language) written in Haskell that utilizes 
 [Allen's Interval Algebra](https://github.com/Archaversine/allen) to find 
-logical inconsistencies in people's alibies.
+logical inconsistencies in people's alibis. 
 
 ## Documentation
 
