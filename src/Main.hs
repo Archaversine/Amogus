@@ -1,3 +1,5 @@
+{-# LANGUAGE LambdaCase #-}
+
 module Main (main) where
 
 import Control.Monad.State
@@ -253,10 +255,7 @@ runCommands commands = do
     mapM_ print (queries result)
 
 main :: IO ()
-main = do 
-    args <- getArgs
-
-    case args of 
+main = getArgs >>= \case
         [filename] -> do 
             contents <- init <$> readFile filename 
 
