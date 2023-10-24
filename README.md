@@ -150,19 +150,26 @@ other claims that they didn't. The interpreter can identify this inconsistency
 and prints all the related information to it:
 
 ```
-[*] --== INCONSISTENCY ==--
+[*] --== INCONSISTENCY ==-- [*]
 
-bob.admin0
-bob.wires0
-bob.electrical0
-bob.medbay0
-#button0
-alice.wires0
-alice.admin0
-alice.medbay0
+Relevant Events:
+ - bob.medbay0
+ - alice.medbay0
 
-[*] --== INCONSISTENCY ==--
-amogus: On Command: set bob.medbay0 [Equals] alice.medbay0
+Affected Events:
+ - bob.admin0
+ - bob.wires0
+ - bob.electrical0
+ - bob.medbay0
+ - #button0
+ - alice.wires0
+ - alice.admin0
+ - alice.medbay0
+
+[*] --== INCONSISTENCY ==-- [*]
+
+Inconsistency detected when attempting to run the command:
+amogus.exe: set bob.medbay0 [Equals] alice.medbay0
 ```
 
 This prints out all events that are related to the consistency, and the 
