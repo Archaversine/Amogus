@@ -6,8 +6,9 @@ import Control.Monad.State
 
 import Data.Allen
 import Data.Bits
+import Data.Char (isSpace)
 import Data.Functor (($>))
-import Data.List (foldl', intercalate)
+import Data.List (foldl', intercalate, dropWhileEnd)
 import Data.Maybe (fromJust)
 import Data.Tuple (swap)
 import Data.Void (Void)
@@ -257,7 +258,7 @@ runCommands commands = do
 main :: IO ()
 main = getArgs >>= \case
         [filename] -> do 
-            contents <- init <$> readFile filename 
+            contents <- dropWhileEnd isSpace <$> readFile filename 
 
             case parse parseCommands filename contents of 
                 Left err -> errorWithoutStackTrace $ errorBundlePretty err
