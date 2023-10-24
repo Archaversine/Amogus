@@ -58,17 +58,17 @@ The symbols that can be used are:
 | Symbol | Description |
 | --- | --- |
 | `-> `| Precedes |
-| `->|`| Meets |
+| `->\|`| Meets |
 | `=_ `| Overlaps |
-| `-=|`| Finished By |
+| `-=\|`| Finished By |
 | `-=-`| Contains |
 | `=>_`| Starts |
 | `=`  | Equals |
 | `=>-`| Started By |
 | `_=_`| During |
-| `_=|`| Finishes |
+| `_=\|`| Finishes |
 | `_=-`| Overlappped By |
-| `|->`| Met By |
+| `\|->`| Met By |
 | `<-` | Preceded By |
 | `/=` | Precedes, Meets, Met By, Preceded By |
 | `~`  | Overlaps, Finished By, Contains, Starts, Equals, Started By, During, Finishes, Overlapped By |
