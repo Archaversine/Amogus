@@ -64,6 +64,13 @@ toNamedEvent :: String -> Event -> NamedEvent
 toNamedEvent name (LocalEvent localName modifier) = NamedLocalEvent name localName modifier
 toNamedEvent _ (GlobalEvent globalName modifier) = NamedGlobalEvent globalName modifier
 
+getRelevantEvents :: Command -> [NamedEvent]
+getRelevantEvents = \case 
+    MakeList events       -> events 
+    SetConstraint e1 _ e2 -> [e1, e2]
+    Query e1 e2           -> [e1, e2]
+    IncreaseStackOffset   -> []
+
 globalEvent :: Parser Event 
 globalEvent = GlobalEvent <$> (char '#' *> identifier) <*> numericModifier
 
@@ -232,15 +239,26 @@ applyCommand command = do
         Just xs -> do 
             ids <- gets intervalIDs
 
-            let idMap = Map.fromList $ map swap $ Map.toList ids
+            let idMap        = Map.fromList $ map swap $ Map.toList ids
                 badIntervals = map (idMap Map.!) xs
+                context      = getRelevantEvents command
 
             unsafePerformIO $ do 
-                putStrLn "[*] --== INCONSISTENCY ==--\n"
-                mapM_ putStrLn badIntervals
-                putStrLn "\n[*] --== INCONSISTENCY ==--"
+                putStrLn "\n[*] --== INCONSISTENCY ==-- [*]\n"
+                putStrLn "Relevant Events:"
 
-                errorWithoutStackTrace $ "On Command: " <> show command
+                forM_ context $ \i -> do 
+                    putStrLn $ " - " <> mangleEvent offset i
+
+                putStrLn "\nAffected Events:"
+
+                forM_ badIntervals $ \i -> do 
+                    putStrLn $ " - " <> i
+            
+                putStrLn "\n[*] --== INCONSISTENCY ==-- [*]\n"
+
+                putStrLn "Inconsistency detected when attempting to run the command:"
+                errorWithoutStackTrace $ show command
 
 applyCommands :: [Command] -> Amogus () 
 applyCommands = mapM_ applyCommand
