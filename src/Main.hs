@@ -10,6 +10,7 @@ import Data.Maybe (fromJust)
 import Data.Tuple (swap)
 import Data.Void (Void)
 
+import System.Environment (getArgs)
 import System.IO.Unsafe (unsafePerformIO)
 
 import Text.Megaparsec
@@ -253,16 +254,13 @@ runCommands commands = do
 
 main :: IO ()
 main = do 
-    let filename = "input.txt" 
+    args <- getArgs
 
-    -- Remove eof at the end because for some reason that breaks everything
-    contents <- init <$> readFile filename
+    case args of 
+        [filename] -> do 
+            contents <- init <$> readFile filename 
 
-    let parsed = parse parseCommands "<stdin>" contents
-    case parsed of 
-        Left err -> errorWithoutStackTrace $ errorBundlePretty err
-        Right x  -> runCommands x
-    --let parsed = parse parseCommands "<stdin>" "query adam.wires, adam.admin"
-    --case parsed of 
-    --    Left err -> errorWithoutStackTrace $ errorBundlePretty err
-    --    Right x -> print x
+            case parse parseCommands filename contents of 
+                Left err -> errorWithoutStackTrace $ errorBundlePretty err
+                Right x  -> runCommands x
+        _ -> errorWithoutStackTrace "Usage: amogus <filename>"
