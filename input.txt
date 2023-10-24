@@ -1,0 +1,9 @@
+
+list bob admin wires electrical medbay #button
+list alice wires admin medbay #button
+
+set bob.wires = alice.wires
+set bob.medbay /= alice.medbay
+
+set bob.medbay = alice.medbay
+
